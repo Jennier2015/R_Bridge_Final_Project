@@ -1,0 +1,57 @@
+---
+title: "R Bridge Program Final Project - esophageal cancer"
+author: "Jenny"
+date: "August 13, 2016"
+output: html_document
+---
+
+```{r include, echo=FALSE}
+# Introduction of dataset: The dataset is from a case-control study of esophageal cancer
+# url: https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/esoph.html
+require(stats)
+require(graphics)
+require(ggplot2)
+```
+
+# Get to know the dataset
+```{r echo=TRUE}
+head(esoph)
+nrow(esoph)
+ncol(esoph)
+```
+
+# Giving Descriptive Names to the Columns
+```{r echo=TRUE}
+colnames(esoph) <- c("AgeGroup", "AlcoholConsumption", "TobaccoConsumption", "Numberofcases", "Numberofcontrols")
+head(esoph)
+```
+
+```{r echo=TRUE}
+# Exploratory Data Analysis Questions 1: What age groupd have the highest risk for esophageal cancer? 
+X <- subset(esoph, select = c("AgeGroup", "Numberofcases"))
+head(X)
+plot(X, main = "Esophageal cancer risks by age group")
+```
+
+```{r echo=TRUE}
+# Exploratory Data Analysis Questions 2: Which alcohol consumption range cause higher risks for esophageal cancer?
+Y <- subset(esoph, select = c("AlcoholConsumption", "TobaccoConsumption", "Numberofcases"))
+head(Y)
+heights <- tapply(Y$`Numberofcases`, Y$`AlcoholConsumption`, mean)
+barplot(heights, main = "Mean number of cases by alcohol consumption", 
+        names.arg = c("0-39 g/day", "40-79 g/day", "80-119 g/day", "120+ g/day"),
+        ylab = "Number of cases")
+
+# Exploratory Data Analysis Questions 3: Which Tobacco Consumption range cause higher risks for esophageal cancer?
+heights2 <- tapply(Y$`Numberofcases`, Y$`TobaccoConsumption`, mean)
+barplot(heights2, main = "Mean number of cases by tobacco consumption",
+        names.arg = c("0-9 g/day", "10-19 g/day", "20-29 g/day", "30+ g/day"),
+        ylab = "Number of cases")
+```
+```{r echo=TRUE}
+# conclusion 1: Age groupd from 55-64 have the higher number of cases for esophageal cancer.
+# Conclusion 2: Alcohol Consumption from 40-79 g/day has the highest average number of cases for esophageal cancer
+# Conclusion 3: Tobacco Consumption from 0-9 g/day has the highest average number of cases for esophageal cancer.
+```
+
+
